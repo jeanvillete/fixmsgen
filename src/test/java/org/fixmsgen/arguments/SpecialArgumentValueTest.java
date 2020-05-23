@@ -129,4 +129,49 @@ public class SpecialArgumentValueTest {
                     assertThat(generatedBigDecimalValue).isGreaterThan(BigDecimal.ZERO);
                 });
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throws_exception_when_random_option_does_not_receive_argument() {
+        specialArgumentValue.checkAndApply(":randopt:");
+
+        failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throws_exception_when_random_option_receives_an_empty_option_on_the_beginning() {
+        specialArgumentValue.checkAndApply(":randopt:,VAL_B,VAL_C");
+
+        failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throws_exception_when_random_option_receives_an_empty_option_on_the_middle() {
+        specialArgumentValue.checkAndApply(":randopt:VAL_A,,VAL_C");
+
+        failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throws_exception_when_random_option_receives_an_empty_option_at_the_end() {
+        specialArgumentValue.checkAndApply(":randopt:VAL_A,VAL_B,");
+
+        failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void ensure_random_option_retrieves_valid_option_from_list_passed_as_argument_for_different_invokes() {
+        IntStream.range(1, 50)
+                .forEach(index -> {
+                    String specialGeneratedValue = specialArgumentValue.checkAndApply(":randopt:VAL_A,VAL_B,VAL_C");
+                    assertThat(specialGeneratedValue)
+                            .isNotNull()
+                            .isNotBlank()
+                            .isNotEmpty()
+                            .isIn(
+                                    "VAL_A",
+                                    "VAL_B",
+                                    "VAL_C"
+                            );
+                });
+    }
 }

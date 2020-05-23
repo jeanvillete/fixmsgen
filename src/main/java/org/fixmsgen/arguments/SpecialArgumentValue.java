@@ -39,12 +39,14 @@ public class SpecialArgumentValue {
         RandomString randomString = new RandomString();
         RandomInteger randomInteger = new RandomInteger();
         RandomBigDecimal randomBigDecimal = new RandomBigDecimal();
+        RandomOption randomOption = new RandomOption();
 
         this.implementers = Collections.unmodifiableMap(
                 new HashMap<String, SpecialArgumentImplementer>(){{
                     put(randomString.identifier(), randomString);
                     put(randomInteger.identifier(), randomInteger);
                     put(randomBigDecimal.identifier(), randomBigDecimal);
+                    put(randomOption.identifier(), randomOption);
                 }}
         );
     }
