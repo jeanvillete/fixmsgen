@@ -36,8 +36,11 @@ public class SpecialArgumentValue {
     private final Map<String, SpecialArgumentImplementer> implementers;
 
     public SpecialArgumentValue() {
+        RandomString randomString = new RandomString();
+
         this.implementers = Collections.unmodifiableMap(
                 new HashMap<String, SpecialArgumentImplementer>(){{
+                    put(randomString.identifier(), randomString);
                 }}
         );
     }
