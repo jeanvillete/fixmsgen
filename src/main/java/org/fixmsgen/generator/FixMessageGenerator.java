@@ -20,18 +20,19 @@ public class FixMessageGenerator {
         void generateFixContent();
     }
 
-    static final String ARGUMENT_DEFAULTS = "-defaults";
-    static final String ARGUMENT_IMPLEMENTATION = "-i";
+    private static final String ARGUMENT_DEFAULTS = "-defaults";
+    private static final String ARGUMENT_IMPLEMENTATION = "-i";
 
-    static final Map<String, Implementation> IMPLEMENTATIONS = unmodifiableMap(
-            new HashMap<String, Implementation>(){{
-            }}
-    );
-
-    ConsoleParameters parameters;
+    private final Map<String, Implementation> implementations;
+    private final ConsoleParameters parameters;
 
     public FixMessageGenerator(String[] args) throws IOExceptionOnReadingDefaultsFileContent {
         this.parameters = parseConsoleParameters(args);
+
+        this.implementations = unmodifiableMap(
+                new HashMap<String, Implementation>(){{
+                }}
+        );
     }
 
     private ConsoleParameters parseConsoleParameters(String[] args) throws IOExceptionOnReadingDefaultsFileContent {
@@ -62,10 +63,14 @@ public class FixMessageGenerator {
     public void generateFixMessages() throws MandatoryParameterNotProvided, InvalidSuppliedImplementation {
         String implementation = parameters.getRequiredValue(ARGUMENT_IMPLEMENTATION);
 
-        Optional.ofNullable(IMPLEMENTATIONS.get(implementation))
+        Optional.ofNullable(implementations.get(implementation))
                 .orElseThrow(() ->
                         new InvalidSuppliedImplementation("No implementation with value [" + implementation + "] is available.")
                 )
                 .generateFixContent();
+    }
+
+    public ConsoleParameters.ReadOnly getParameters() {
+        return ConsoleParameters.ReadOnly.of(parameters);
     }
 }

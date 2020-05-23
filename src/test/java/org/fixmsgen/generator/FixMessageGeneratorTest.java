@@ -22,7 +22,7 @@ public class FixMessageGeneratorTest {
     @Test
     public void console_parameter_is_size_zero_in_case_no_argument_is_provided() throws IOExceptionOnReadingDefaultsFileContent {
         FixMessageGenerator fixMessageGenerator = new FixMessageGenerator(new String[]{});
-        assertThat(fixMessageGenerator.parameters.size()).isEqualTo(0);
+        assertThat(fixMessageGenerator.getParameters().size()).isEqualTo(0);
     }
 
     @Test
@@ -35,9 +35,9 @@ public class FixMessageGeneratorTest {
                 }
         );
 
-        assertThat(fixMessageGenerator.parameters.getValue("-11")).isEqualTo("abc");
-        assertThat(fixMessageGenerator.parameters.getValue("-54")).isEqualTo("2");
-        assertThat(fixMessageGenerator.parameters.getValue("-75")).isEqualTo("20200531");
+        assertThat(fixMessageGenerator.getParameters().getValue("-11")).isEqualTo("abc");
+        assertThat(fixMessageGenerator.getParameters().getValue("-54")).isEqualTo("2");
+        assertThat(fixMessageGenerator.getParameters().getValue("-75")).isEqualTo("20200531");
     }
 
     @Test(expected = IOExceptionOnReadingDefaultsFileContent.class)
@@ -66,10 +66,10 @@ public class FixMessageGeneratorTest {
                 }
         );
 
-        assertThat(fixMessageGenerator.parameters.getValue("-11")).isEqualTo("123");
-        assertThat(fixMessageGenerator.parameters.getValue("-17")).isEqualTo("321");
-        assertThat(fixMessageGenerator.parameters.getValue("-54")).isEqualTo("2");
-        assertThat(fixMessageGenerator.parameters.getValue("-75")).isEqualTo("20200531");
+        assertThat(fixMessageGenerator.getParameters().getValue("-11")).isEqualTo("123");
+        assertThat(fixMessageGenerator.getParameters().getValue("-17")).isEqualTo("321");
+        assertThat(fixMessageGenerator.getParameters().getValue("-54")).isEqualTo("2");
+        assertThat(fixMessageGenerator.getParameters().getValue("-75")).isEqualTo("20200531");
     }
 
     @Test(expected = MandatoryParameterNotProvided.class)
