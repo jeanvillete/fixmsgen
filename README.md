@@ -12,15 +12,15 @@ It is basically formed by a semicolon, followed by an identifier, a semicolon an
 | argument | meaning | argument/variable |
 | --- | --- | --- |
 | ***:randstr:5*** | a random string of size 5 | the value 5 at the end means a variable/argument that must be provided |
-| ***:today:YYYYMMdd*** | a string with a local date formatted, for example; 20200531 | the YYYYMMdd at the end means the pattern to format the today, it is variable and might be provided as needed, since it is a valid value |
-| ***:now:YYYYMMdd-HH:mm:ss:SSS*** | a string with a local date time formatted, for example; 20200511-14:18:17:233 | the YYYYMMdd-HH:mm:ss:SSS at the end means the pattern to format the local date time for now(), it is variable and might be provided as needed, since it is a valid value for a local date time |
+| ***:today:YYYYMMdd*** | a string with a local date formatted, for example; 20200531 | the YYYYMMdd at the end means the pattern to format the today, it is an argument variable and might be provided as needed, once it is a valid ***date pattern*** |
+| ***:now:YYYYMMdd-HH:mm:ss:SSS*** | a string with a local date time formatted, for example; 20200511-14:18:17:233 | the YYYYMMdd-HH:mm:ss:SSS at the end means the pattern to format the local date time for now(), it is an argument variable and might be provided as needed, once it is a valid ***date time pattern*** |
 | ***:randbigdec:2*** | a positive big decimal scaled by 2 decimal digits | the value 2 at the end means a variable/argument that must be provided |
 | ***:randint:*** | a positive integer value | no argument might be provided for this |
-| ***:randopt:VAL_A,VAL_B*** | a positive integer value | arguments must be provided, where options must be split by a comma |
+| ***:randopt:VAL_A,VAL_B*** | random options, it is retrieved only one of the available list | arguments must be provided, where options must be split by a comma |
 
 ---
 
-# argument `-defaults`
+# argument `-defaults` (optional)
 
 In case the argument `-defaults` is provided, it must point to some valid file which declares the key value pair,
 it follows the same rule for every implementation `-i`, for example, let's assume there's a file called my defaults with the following content;  
@@ -29,8 +29,14 @@ it follows the same rule for every implementation `-i`, for example, let's assum
     -17=321
     -54=1
 
-> the items within on the `-defaults` content are first loaded so later are loaded the arguments provided on the command (terminal),
+> the items within the file content addressed by the `-defaults` argument, are first loaded so later are loaded the arguments provided on the command line (terminal),
 > that means values from the file content are overwritten by the arguments provided alongside the command line.
+
+---
+
+# argument `-i` (mandatory)
+
+Argument `-i` is meant for the desired implementation for the generated fix message content.  
 
 ---
 
