@@ -79,7 +79,7 @@ public class FixMessageGeneratorTest {
                         "-54", "2",
                         "-75", "20200531"
                 }
-        ).generateFixMessages();
+        ).generateFixMessage();
     }
 
     @Test(expected = InvalidSuppliedImplementation.class)
@@ -87,6 +87,16 @@ public class FixMessageGeneratorTest {
         new FixMessageGenerator(
                 new String[]{
                         "-i", "fake-impl-name"}
-        ).generateFixMessages();
+        ).generateFixMessage();
+    }
+
+    @Test
+    public void check_valid_fix44_implementation_generated_content() throws IOExceptionOnReadingDefaultsFileContent, InvalidSuppliedImplementation, MandatoryParameterNotProvided {
+        String fixContent = new FixMessageGenerator(
+                new String[]{
+                        "-i", "fix-4.4-dc-created"}
+        ).generateFixMessage();
+
+        assertThat(fixContent).isNotNull().isNotBlank().isNotEmpty();
     }
 }

@@ -11,13 +11,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.stream.Stream;
 
 import static java.util.Collections.unmodifiableMap;
+import static java.util.stream.Collectors.joining;
 
 public class FixMessageGenerator {
 
     interface Implementation {
-        void generateFixContent();
+        Stream<String> generateFixContent();
     }
 
     private static final String ARGUMENT_DEFAULTS = "-defaults";
@@ -31,6 +33,10 @@ public class FixMessageGenerator {
 
         this.implementations = unmodifiableMap(
                 new HashMap<String, Implementation>(){{
+                    put(
+                            "fix-4.4-dc-created",
+                            new Fix44DropCopyCreated(getParameters())
+                    );
                 }}
         );
     }
@@ -60,17 +66,18 @@ public class FixMessageGenerator {
         return parameters;
     }
 
-    public void generateFixMessages() throws MandatoryParameterNotProvided, InvalidSuppliedImplementation {
+    public String generateFixMessage() throws MandatoryParameterNotProvided, InvalidSuppliedImplementation {
         String implementation = parameters.getRequiredValue(ARGUMENT_IMPLEMENTATION);
 
-        Optional.ofNullable(implementations.get(implementation))
+        return Optional.ofNullable(implementations.get(implementation))
                 .orElseThrow(() ->
                         new InvalidSuppliedImplementation("No implementation with value [" + implementation + "] is available.")
                 )
-                .generateFixContent();
+                .generateFixContent()
+                .collect(joining("\u0001"));
     }
 
-    public ConsoleParameters.ReadOnly getParameters() {
+    ConsoleParameters.ReadOnly getParameters() {
         return ConsoleParameters.ReadOnly.of(parameters);
     }
 }
