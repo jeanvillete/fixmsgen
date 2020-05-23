@@ -12,8 +12,7 @@ It is basically formed by a semicolon, followed by an identifier, a semicolon an
 | argument | meaning | argument/variable |
 | --- | --- | --- |
 | ***:randstr:5*** | a random string of size 5 | the value 5 at the end means a variable/argument that must be provided |
-| ***:today:YYYYMMdd*** | a string with a local date formatted, for example; 20200531 | the YYYYMMdd at the end means the pattern to format the today, it is an argument variable and might be provided as needed, once it is a valid ***date pattern*** |
-| ***:now:YYYYMMdd-HH:mm:ss:SSS*** | a string with a local date time formatted, for example; 20200511-14:18:17:233 | the YYYYMMdd-HH:mm:ss:SSS at the end means the pattern to format the local date time for now(), it is an argument variable and might be provided as needed, once it is a valid ***date time pattern*** |
+| ***:now:yyyyMMdd-HH:mm:ss*** | a string with a local date time formatted, for example; 20200511-14:18:17:233, but it might be used for retrieving both/either ***date***, ***time*** or ***date time portion***, by providing corresponding ***yyyyMMdd***, ***HH:mm:ss***, ***yyyyMMdd-HH:mm:ss***, or even ***yyyyMMdd-HH:mm:ss.SSS***. | the yyyyMMdd-HH:mm:ss at the end means the pattern to format the local date time for now(), it is an argument variable and might be provided as needed, once it is a valid ***date time pattern*** |
 | ***:randbigdec:2*** | a positive big decimal scaled by 2 decimal digits | the value 2 at the end means a variable/argument that must be provided |
 | ***:randint:*** | a positive integer value | no argument might be provided for this |
 | ***:randopt:VAL_A,VAL_B*** | random options, it is retrieved only one of the available list | arguments must be provided, where options must be split by a comma |
@@ -49,8 +48,8 @@ Argument `-i` is meant for the desired implementation for the generated fix mess
         -37                     <OrderID> [default; randon string, i.e; ":randstr:26"]
         -54                     <Side> [default; randon string, i.e; ":randopt:1,2"]
         -59                     <OrderValidityType> [default; randon string, i.e; ":randopt:0,3"]
-        -75                     <TradeDate> [default; today as local date, i.e;":today:YYYYMMdd"]
-        -60                     <TransactionTime> [default; now as local date time, i.e;":now:YYYYMMdd-HH:mm:ss:SSS"]
+        -75                     <TradeDate> [default; today as local date, i.e;":now:yyyyMMdd"]
+        -60                     <TransactionTime> [default; now as local date time, i.e;":now:yyyyMMdd-HH:mm:ss:SSS"]
         -198                    <SecondaryOrderId> [default; randon string, i.e; ":randstr:26"]
         -1180                   <SessionID> [default; randon string, i.e; ":randstr:12"]
         -6032                   <TradeNumber> [default; randon string, i.e; ":randstr:10"]
@@ -72,7 +71,7 @@ Argument `-i` is meant for the desired implementation for the generated fix mess
         -453=[n].452=76.448     <DeskID> [default; randon string, i.e; ":randstr:50"]
         -38                     <OrderQuantity> [default; random integer, i.e; ":randint:"]
         -44                     <OrderPrice> [default; random bigdecimal, i.e; ":randbigdec:2"]
-        -432                    <OrderExpireDate> [default; today as local date, i.e;":today:YYYYMMdd"]
+        -432                    <OrderExpireDate> [default; today as local date, i.e;":now:yyyyMMdd"]
         -41                     <OriginalClientOrderID> [default; randon string, i.e; ":randstr:38"]
         -526                    <SecondaryClientOrderID> [default; randon string, i.e; ":randstr:38"]
         -14                     <FilledQuantity> [default; random integer, i.e; ":randint:"]

@@ -31,7 +31,7 @@ public class SpecialArgumentValue {
         }
     }
 
-    private final static String SPECIAL_ARGUMENT_PATTERN = ":(\\w+):([\\w\\d,:-]*)";
+    private final static String SPECIAL_ARGUMENT_PATTERN = ":(\\w+):([\\w\\d'.,:-]*)";
 
     private final Map<String, SpecialArgumentImplementer> implementers;
 
@@ -40,6 +40,7 @@ public class SpecialArgumentValue {
         RandomInteger randomInteger = new RandomInteger();
         RandomBigDecimal randomBigDecimal = new RandomBigDecimal();
         RandomOption randomOption = new RandomOption();
+        Now now = new Now();
 
         this.implementers = Collections.unmodifiableMap(
                 new HashMap<String, SpecialArgumentImplementer>(){{
@@ -47,6 +48,7 @@ public class SpecialArgumentValue {
                     put(randomInteger.identifier(), randomInteger);
                     put(randomBigDecimal.identifier(), randomBigDecimal);
                     put(randomOption.identifier(), randomOption);
+                    put(now.identifier(), now);
                 }}
         );
     }
