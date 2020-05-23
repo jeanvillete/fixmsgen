@@ -71,4 +71,32 @@ public class SpecialArgumentValueTest {
                 });
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void throws_exception_in_case_a_non_numeric_argument_is_provided_to_random_integer() {
+        specialArgumentValue.checkAndApply(":randint:arg");
+
+        failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throws_exception_in_case_a_numeric_argument_is_provided_to_random_integer() {
+        specialArgumentValue.checkAndApply(":randint:123");
+
+        failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    }
+
+    @Test
+    public void ensure_random_integer_retrieves_valid_positive_values_for_different_invocations() {
+        IntStream.range(1, 50)
+                .forEach(index -> {
+                    String specialGeneratedValue = specialArgumentValue.checkAndApply(":randint:");
+                    assertThat(specialGeneratedValue)
+                            .isNotNull()
+                            .isNotBlank()
+                            .isNotEmpty();
+
+                    int generatedValueAsInteger = Integer.parseInt(specialGeneratedValue);
+                    assertThat(generatedValueAsInteger).isGreaterThan(0);
+                });
+    }
 }
