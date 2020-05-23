@@ -38,11 +38,13 @@ public class SpecialArgumentValue {
     public SpecialArgumentValue() {
         RandomString randomString = new RandomString();
         RandomInteger randomInteger = new RandomInteger();
+        RandomBigDecimal randomBigDecimal = new RandomBigDecimal();
 
         this.implementers = Collections.unmodifiableMap(
                 new HashMap<String, SpecialArgumentImplementer>(){{
                     put(randomString.identifier(), randomString);
                     put(randomInteger.identifier(), randomInteger);
+                    put(randomBigDecimal.identifier(), randomBigDecimal);
                 }}
         );
     }

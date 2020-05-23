@@ -1,5 +1,6 @@
 package org.fixmsgen.arguments;
 
+import java.util.Objects;
 import java.util.Random;
 
 class RandomString implements SpecialArgumentValue.SpecialArgumentImplementer {
@@ -14,9 +15,10 @@ class RandomString implements SpecialArgumentValue.SpecialArgumentImplementer {
 
     @Override
     public String specialValue(String specialArgument) {
-        if (specialArgument == null || specialArgument.length() == 0) {
+        if (Objects.isNull(specialArgument) || specialArgument.length() == 0) {
             throw argumentValidationException;
         }
+
         Integer randomStringSize;
         try {
             randomStringSize = Integer.parseInt(specialArgument);
