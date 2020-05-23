@@ -82,6 +82,10 @@ public class ConsoleParameters {
 		return this.mappedParams.get(key);
 	}
 
+	public String getValueOrDefault(String key, String defaultValue) {
+		return this.mappedParams.getOrDefault(key, defaultValue);
+	}
+
 	public String getRequiredValue(String key) throws MandatoryParameterNotProvided {
 		return Optional.ofNullable(this.mappedParams.get(key))
                 .orElseThrow(() ->

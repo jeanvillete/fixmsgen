@@ -1,6 +1,7 @@
 package org.fixmsgen.generator;
 
 import org.fixmsgen.arguments.ConsoleParameters;
+import org.fixmsgen.arguments.SpecialArgumentValue;
 import org.fixmsgen.generator.exception.IOExceptionOnReadingDefaultsFileContent;
 import org.fixmsgen.generator.exception.InvalidSuppliedImplementation;
 import org.fixmsgen.generator.exception.MandatoryParameterNotProvided;
@@ -30,12 +31,16 @@ public class FixMessageGenerator {
 
     public FixMessageGenerator(String[] args) throws IOExceptionOnReadingDefaultsFileContent {
         this.parameters = parseConsoleParameters(args);
+        SpecialArgumentValue specialArgumentValue = new SpecialArgumentValue();
 
         this.implementations = unmodifiableMap(
                 new HashMap<String, Implementation>(){{
                     put(
                             "fix-4.4-dc-created",
-                            new Fix44DropCopyCreated(getParameters())
+                            new Fix44DropCopyCreated(
+                                    getParameters(),
+                                    specialArgumentValue
+                            )
                     );
                 }}
         );
