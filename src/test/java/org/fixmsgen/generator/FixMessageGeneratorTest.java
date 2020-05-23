@@ -1,6 +1,8 @@
 package org.fixmsgen.generator;
 
 import org.fixmsgen.generator.exception.IOExceptionOnReadingDefaultsFileContent;
+import org.fixmsgen.generator.exception.InvalidSuppliedImplementation;
+import org.fixmsgen.generator.exception.MandatoryParameterNotProvided;
 import org.junit.Test;
 
 import java.net.URL;
@@ -68,5 +70,23 @@ public class FixMessageGeneratorTest {
         assertThat(fixMessageGenerator.parameters.getValue("-17")).isEqualTo("321");
         assertThat(fixMessageGenerator.parameters.getValue("-54")).isEqualTo("2");
         assertThat(fixMessageGenerator.parameters.getValue("-75")).isEqualTo("20200531");
+    }
+
+    @Test(expected = MandatoryParameterNotProvided.class)
+    public void invoke_generate_fix_message_without_providing_parameter_for_implementation() throws IOExceptionOnReadingDefaultsFileContent, InvalidSuppliedImplementation, MandatoryParameterNotProvided {
+        new FixMessageGenerator(
+                new String[]{
+                        "-54", "2",
+                        "-75", "20200531"
+                }
+        ).generateFixMessages();
+    }
+
+    @Test(expected = InvalidSuppliedImplementation.class)
+    public void look_for_invalid_implementation_value() throws IOExceptionOnReadingDefaultsFileContent, InvalidSuppliedImplementation, MandatoryParameterNotProvided {
+        new FixMessageGenerator(
+                new String[]{
+                        "-i", "fake-impl-name"}
+        ).generateFixMessages();
     }
 }

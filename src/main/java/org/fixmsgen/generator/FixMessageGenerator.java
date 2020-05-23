@@ -2,14 +2,31 @@ package org.fixmsgen.generator;
 
 import org.fixmsgen.arguments.ConsoleParameters;
 import org.fixmsgen.generator.exception.IOExceptionOnReadingDefaultsFileContent;
+import org.fixmsgen.generator.exception.InvalidSuppliedImplementation;
+import org.fixmsgen.generator.exception.MandatoryParameterNotProvided;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
+
+import static java.util.Collections.unmodifiableMap;
 
 public class FixMessageGenerator {
 
+    interface Implementation {
+        void generateFixContent();
+    }
+
     static final String ARGUMENT_DEFAULTS = "-defaults";
+    static final String ARGUMENT_IMPLEMENTATION = "-i";
+
+    static final Map<String, Implementation> IMPLEMENTATIONS = unmodifiableMap(
+            new HashMap<String, Implementation>(){{
+            }}
+    );
 
     ConsoleParameters parameters;
 
@@ -42,6 +59,13 @@ public class FixMessageGenerator {
         return parameters;
     }
 
-    public void generateFixMessages() {
+    public void generateFixMessages() throws MandatoryParameterNotProvided, InvalidSuppliedImplementation {
+        String implementation = parameters.getRequiredValue(ARGUMENT_IMPLEMENTATION);
+
+        Optional.ofNullable(IMPLEMENTATIONS.get(implementation))
+                .orElseThrow(() ->
+                        new InvalidSuppliedImplementation("No implementation with value [" + implementation + "] is available.")
+                )
+                .generateFixContent();
     }
 }

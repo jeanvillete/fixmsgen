@@ -1,7 +1,10 @@
 package org.fixmsgen.arguments;
 
+import org.fixmsgen.generator.exception.MandatoryParameterNotProvided;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ConsoleParameters {
 	
@@ -38,6 +41,13 @@ public class ConsoleParameters {
 
 	public String getValue(String key) {
 		return this.mappedParams.get(key);
+	}
+
+	public String getRequiredValue(String key) throws MandatoryParameterNotProvided {
+		return Optional.ofNullable(this.mappedParams.get(key))
+                .orElseThrow(() ->
+                        new MandatoryParameterNotProvided("Mandatory parameter with key [" + key + "] was not provided.")
+                );
 	}
 
 	public boolean containsArgument(String key) {
